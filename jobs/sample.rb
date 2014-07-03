@@ -1,3 +1,5 @@
+require 'github_api'
+
 current_valuation = 0
 current_karma = 0
 
@@ -13,7 +15,14 @@ SCHEDULER.every '2s' do
   send_event('karma', { current: current_karma, last: last_karma })
   send_event('synergy',   { value: rand(100) })
   send_event('welcome', { title: "cara", text: "the time is #{the_time}"})
-  send_event('recent_git_commit', { text: "one step closer to a git commit message"})
 
 
+SCHEDULER.every '60s', :first_in => 0  do
+    
+    github = Github.new
+    commit_message = github.repos.commits.all('carapark', 'Test_Dashboard').first.commit.message
+    
+    send_event('recent_git_commit', { text: commit_message})
+
+end
 end

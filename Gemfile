@@ -7,3 +7,5 @@ gem 'twitter', '>= 5.9.0'
 
 
 gem 'dotenv'
+
+gem 'github_api'
